@@ -3,8 +3,6 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/davecgh/go-spew/spew"
 )
 
 // define an author type with a name
