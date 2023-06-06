@@ -4,7 +4,7 @@ package main
 import "fmt"
 
 // Part 1: print function refactoring
-func printAny[T string | int | bool](value T) {
+func printAny[T any](value T) {
 	fmt.Println(value)
 }
 
