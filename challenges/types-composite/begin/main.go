@@ -1,7 +1,11 @@
 // challenges/types-composite/begin/main.go
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/davecgh/go-spew/spew"
+)
 
 // define an author type with a name
 type author struct {
