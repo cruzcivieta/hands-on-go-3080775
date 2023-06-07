@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"os"
 	"strings"
+	"sync"
 	"time"
 	"unicode"
 
@@ -84,11 +85,24 @@ func doAnalysis(data string, counters ...counter) map[string]int {
 	// capture the length of the words in the data
 	analysis["words"] = len(strings.Fields(data))
 
+	// intialize wait group
+	var wg sync.WaitGroup
+	wg.Add(len(counters))
+
+	// initialize mutex
+	var mu sync.Mutex
+
 	// loop over the counters and use their name as the key
-	for _, c := range counters {
-		analysis[c.name()] = c.count(data)
+	for _, aCounter := range counters {
+		go func(counter counter) {
+			defer wg.Done()
+			mu.Lock()
+			defer mu.Unlock()
+			analysis[counter.name()] = counter.count(data)
+		}(aCounter)
 	}
 
+	wg.Wait()
 	// return the map
 	return analysis
 }
